@@ -100,6 +100,19 @@ test("fast ring: in ring mode quick flicks move 1, 1, 2, 2, 3 rows; temple repea
 test("splitHint: a last line of gestures goes under the frame; text with an = sign stays", () => {
   assert.deepEqual(splitHint("Couldn't show this.\n\n(double tap = back)"), { body: "Couldn't show this.", hint: "double tap = back" });
   assert.deepEqual(splitHint("Budget: 2 + 2 = 4"), { body: "Budget: 2 + 2 = 4", hint: null });
+  assert.deepEqual(splitHint("Saved.\n\ntap = save · double tap = cancel  "), { body: "Saved.", hint: "tap = save · double tap = cancel" });
+  assert.deepEqual(splitHint("Line one \n \n(swipe = page)"), { body: "Line one", hint: "swipe = page" });
+  assert.deepEqual(splitHint("Notes\n (tap = x)"), { body: "Notes\n (tap = x)", hint: null }); // not at the line's start
+  assert.deepEqual(splitHint("Notes\ntapping is fine"), { body: "Notes\ntapping is fine", hint: null }); // no = sign
+  assert.deepEqual(splitHint("Notes\n(tap = back)\n"), { body: "Notes\n(tap = back)\n", hint: null }); // not the last line
+});
+
+test("splitHint stays fast on hostile text (linear time, no backtracking)", () => {
+  const started = performance.now();
+  splitHint("\n".repeat(200_000) + "x");
+  splitHint("a\n(tap =" + " ".repeat(200_000) + "y");
+  splitHint("a\n" + "tap = ".repeat(50_000) + "\t".repeat(50_000));
+  assert.ok(performance.now() - started < 200, "took too long");
 });
 
 test("fitHeader: the title gives way so the status after it stays", () => {

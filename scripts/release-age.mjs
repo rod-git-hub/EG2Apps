@@ -24,7 +24,7 @@ export function lockedPackages(lockfile) {
 }
 
 async function publishedAt(name, version) {
-  const r = await fetch(`https://registry.npmjs.org/${name.replace("/", "%2F")}`, { headers: { accept: "application/json" } });
+  const r = await fetch(`https://registry.npmjs.org/${name.replaceAll("/", "%2F")}`, { headers: { accept: "application/json" } });
   if (!r.ok) throw new Error(`${name}: registry answered ${r.status}`);
   const doc = await r.json();
   const t = doc.time?.[version];

@@ -39,14 +39,21 @@ export function fitHeader(header: string, room: number = HEADER_PX): string {
   return fitWidth(header, room);
 }
 
+const HINT_START = /^(?:tap|double tap|swipe)\b/;
+
 /**
  * A text page's last line when it only holds gesture instructions ("tap = save · double tap = cancel", "(double tap =
- * back)"): taken out of the body for the line under the frame.
+ * back)"): taken out of the body for the line under the frame. String methods and one anchored check, so the time stays
+ * linear in the text's length whatever the text (no backtracking regular expression).
  */
 export function splitHint(body: string): { body: string; hint: string | null } {
-  const m = /\n+\(?((?:tap|double tap|swipe)\b[^\n]*?=[^\n]*?)\)?[ \t]*$/.exec(body);
-  if (!m) return { body, hint: null };
-  return { body: body.slice(0, m.index).replace(/\s+$/, ""), hint: m[1]!.trim() };
+  const nl = body.lastIndexOf("\n");
+  if (nl < 0) return { body, hint: null };
+  let line = body.slice(nl + 1).trimEnd();
+  if (line.startsWith("(")) line = line.slice(1);
+  if (line.endsWith(")")) line = line.slice(0, -1);
+  if (!HINT_START.test(line) || !line.includes("=")) return { body, hint: null };
+  return { body: body.slice(0, nl).trimEnd(), hint: line.trim() };
 }
 
 export interface NavigatorOptions {
