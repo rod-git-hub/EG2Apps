@@ -1,7 +1,8 @@
 # Installing EG2Notes and EG2Presentation
 
-How to get the apps onto your phone and glasses, and what you see the first time. Building them yourself is in
-[development.md](development.md). All screenshots use made-up data.
+How to get the apps onto your phone and glasses, and what you see the first time. You install them from Even Hub:
+this repository is only their open-source code, and building them yourself ([development.md](development.md)) is
+optional. All screenshots use made-up data.
 
 ## Contents
 
@@ -23,14 +24,16 @@ How to get the apps onto your phone and glasses, and what you see the first time
 
 ## 2. Install
 
-**From Even Hub:** once the apps are published, find **EG2Notes** or **EG2Presentation** in Even Hub, inside the Even
-Realities app, and install it. (Status: in review; this section gets its screenshots when they're live.)
+**From Even Hub (the usual way):** in the Even Realities app on your phone, open Even Hub, find **EG2Notes** or
+**EG2Presentation**, and install it. Nothing else to download. (Submitted on 22 October 2026: the apps appear in Even
+Hub once Even Realities approves them.)
 
 **As a beta tester:** the developer invites your Even account's email. Even's steps
 ([Beta testing](https://hub.evenrealities.com/docs/test/beta-testing)): accept the invitation email, then in the Even
 Realities app go to "**Me → Beta tester**", which lists the build, and tap **Install**.
 
-**Your own build:** see [development.md](development.md) (a QR code for testing, or a private build).
+**Your own build (developers only):** see [development.md](development.md) (a QR code for testing, or a private
+build).
 
 ## 3. First start
 

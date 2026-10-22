@@ -5,6 +5,11 @@ notes and checklists on the glasses; **EG2Presentation** walks you through your 
 stopwatch. You create and edit everything on the phone; the glasses show, tick and move things. No server, no
 account, no internet: your data stays on your phone.
 
+> **Get the apps from Even Hub,** inside the Even Realities app on your phone: find **EG2Notes** or
+> **EG2Presentation** and tap Install. You don't need anything from this page to use them. This repository is the
+> apps' **open-source code**, published so anyone can read how they work and check what they do with your data.
+> *(Both apps were submitted to Even Hub on 22 October 2026 and appear there once Even Realities approves them.)*
+
 <p align="center">
   <img src="docs/img/eg2notes/glasses-02-checklist.png" alt="EG2Notes: a checklist on the glasses" width="420">
   <img src="docs/img/eg2presentation/glasses-03-talk.png" alt="EG2Presentation: a talk's topics with the stopwatch" width="420"><br>
@@ -47,10 +52,11 @@ Everything is saved on the phone. Nothing goes anywhere else.
 
 ## 🚀 Install
 
-- **Users:** [docs/tutorials/install.md](docs/tutorials/install.md): from Even Hub (once published) or as a beta
-  tester, the first start, the settings worth a look.
-- **From source:** [docs/tutorials/development.md](docs/tutorials/development.md): the checks, Even's simulator, your
-  phone with a QR code, packing for Even Hub. In short:
+- **To use the apps:** install them from **Even Hub** in the Even Realities app. Nothing to download or build here.
+  The guide, with the first start and the settings worth a look: [docs/tutorials/install.md](docs/tutorials/install.md).
+- **To read or build the code (optional, for developers):**
+  [docs/tutorials/development.md](docs/tutorials/development.md): the checks, Even's simulator, your phone with a QR
+  code, packing. In short:
 
 ```bash
 git clone https://github.com/rod-git-hub/EG2Apps.git
@@ -131,7 +137,8 @@ More in [docs/tutorials/user-guide.md](docs/tutorials/user-guide.md).
 
 ## Status
 
-Version 1.0.1 of both apps is in beta testing; not yet on Even Hub. Changes: [CHANGELOG.md](CHANGELOG.md).
+Version 1.0.1 of both apps was submitted to Even Hub for review on 22 October 2026; once approved, install them from
+Even Hub. Changes: [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 

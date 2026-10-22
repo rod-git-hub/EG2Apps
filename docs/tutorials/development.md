@@ -1,7 +1,7 @@
 # Building and testing the apps yourself
 
-From a fresh clone to the apps in Even's simulator, on your own phone, and packed for Even Hub. Using the apps:
-[user-guide.md](user-guide.md).
+For developers: from a fresh clone to the apps in Even's simulator, on your own phone, and packed for Even Hub. To just
+use the apps, install them from Even Hub instead ([install.md](install.md)); the tour is in [user-guide.md](user-guide.md).
 
 ## Contents
 
