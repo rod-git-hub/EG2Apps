@@ -2,8 +2,9 @@
 
 ## Reporting a vulnerability
 
-Please report privately through GitHub's **Security → Report a vulnerability** on this repository (available once
-the repository is public). Don't open a public issue for security problems. You'll get a reply within 7 days.
+Please report privately through GitHub's **Security → Report a vulnerability** on this repository
+(https://github.com/rod-git-hub/EG2Apps/security). Don't open a public issue for security problems. You'll get a
+reply within 7 days.
 
 ## What the apps do and don't do
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Before the repository goes public: runs the secret scan and the public-hygiene check over EVERY version of every
+// Before a release or a push: runs the secret scan and the public-hygiene check over EVERY version of every
 // file in the history (not just the current files), and over every commit message and author address.
 //
 //   node scripts/history-scan.mjs [revision range]     (default: all local branches)
