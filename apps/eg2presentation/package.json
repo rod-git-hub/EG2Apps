@@ -1,0 +1,19 @@
+{
+  "name": "@eg2apps/eg2presentation",
+  "version": "1.0.1",
+  "private": true,
+  "description": "EG2Presentation: folders of presentations with topics, details and a talk stopwatch on Even Realities G2 glasses, edited on the phone.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host --port 5173 --strictPort",
+    "dev:sim": "vite --port 5174 --strictPort",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@evenrealities/even_hub_sdk": "0.0.16"
+  },
+  "devDependencies": {
+    "@evenrealities/evenhub-cli": "0.1.14"
+  }
+}

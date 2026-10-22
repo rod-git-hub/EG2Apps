@@ -1,0 +1,38 @@
+{
+  "name": "eg2apps",
+  "version": "0.0.0",
+  "private": true,
+  "description": "EG2Notes and EG2Presentation: offline notes and presentation apps for Even Realities G2 glasses. No network, no server, data stays on the phone.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24.22.1 <25"
+  },
+  "workspaces": [
+    "packages/shared",
+    "apps/eg2notes",
+    "apps/eg2presentation"
+  ],
+  "scripts": {
+    "check:packages": "node scripts/check-approved.mjs",
+    "check:secrets": "node scripts/secret-scan.mjs --all",
+    "check:hygiene": "node scripts/hygiene-check.mjs --all",
+    "typecheck": "tsc -p tsconfig.json && tsc -p packages/shared && tsc -p apps/eg2notes && tsc -p apps/eg2presentation",
+    "test": "node --test",
+    "build": "npm run build -w @eg2apps/eg2notes -w @eg2apps/eg2presentation",
+    "check:bundle": "node scripts/bundle-scan.mjs apps/eg2notes/dist apps/eg2presentation/dist",
+    "check": "npm run check:packages && npm run check:secrets && npm run check:hygiene && npm run typecheck && npm test",
+    "check:all": "npm run check && npm run build && npm run check:bundle",
+    "check:release": "node scripts/release-age.mjs 7",
+    "check:history": "node scripts/history-scan.mjs"
+  },
+  "devDependencies": {
+    "@evenrealities/evenhub-simulator": "0.9.5",
+    "@types/node": "24.19.2",
+    "typescript": "7.0.2",
+    "vite": "8.3.4"
+  },
+  "overrides": {
+    "postcss": "8.5.30"
+  }
+}

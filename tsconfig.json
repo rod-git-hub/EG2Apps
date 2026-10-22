@@ -1,0 +1,19 @@
+{
+  // Type checking for build-time code that runs in Node (the Vite plugin in packages/shared/build).
+  // The browser code has its own configs: packages/shared/tsconfig.json and each app's tsconfig.json.
+  // Node 24 runs TypeScript directly in the tests by stripping types, so only "erasable" syntax is
+  // allowed (no enums, no parameter properties) and tsc never writes output files.
+  "compilerOptions": {
+    "target": "ES2024",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "noEmit": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": true,
+    "skipLibCheck": true,
+    "types": ["node"]
+  },
+  "include": ["packages/shared/build"]
+}

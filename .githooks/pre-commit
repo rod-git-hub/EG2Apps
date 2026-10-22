@@ -1,0 +1,10 @@
+#!/bin/sh
+# Blocks commits that contain secret-looking text or private details
+# (scripts/secret-scan.mjs, scripts/hygiene-check.mjs).
+# Enabled for this repo with: git config core.hooksPath .githooks
+
+NVM_SH="${NVM_DIR:-$HOME/.nvm}/nvm.sh"
+if ! command -v node >/dev/null 2>&1 && [ -s "$NVM_SH" ]; then
+  . "$NVM_SH" >/dev/null
+fi
+node scripts/secret-scan.mjs --staged && exec node scripts/hygiene-check.mjs --staged

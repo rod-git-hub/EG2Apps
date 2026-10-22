@@ -1,0 +1,18 @@
+{
+  "name": "@eg2apps/shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Code shared by EG2Notes and EG2Presentation: bridge queue, storage, text fitting, glasses navigation.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./dev-shots": "./src/dev-shots.ts",
+    "./doc": "./src/doc.ts",
+    "./list": "./src/list.ts",
+    "./text": "./src/text.ts"
+  },
+  "dependencies": {
+    "@evenrealities/even_hub_sdk": "0.0.16"
+  }
+}

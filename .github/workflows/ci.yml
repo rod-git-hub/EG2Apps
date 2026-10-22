@@ -1,0 +1,48 @@
+name: CI
+
+# Every pushed branch, so a work branch is checked before main moves to it.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+# Least privilege: the workflow can only read the repo.
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      # Actions are pinned to exact commits (tags can be moved; commits can't).
+      # Checked against the tags on 2026-10-21.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24.22.1
+
+      # .npmrc applies here too: exact pins, no install scripts, registry only.
+      - name: Install (exactly as locked)
+        run: npm ci
+      - name: Approved-packages gate
+        run: npm run check:packages
+      - name: Secret scan
+        run: npm run check:secrets
+      - name: Public-hygiene check
+        run: npm run check:hygiene
+      - name: Type check
+        run: npm run typecheck
+      - name: Tests
+        run: npm test
+      - name: Build both apps
+        run: npm run build
+      - name: Bundle privacy scan (no network code, strict CSP)
+        run: npm run check:bundle
+      - name: Known vulnerabilities
+        run: npm audit --audit-level=moderate
+      - name: Registry signatures
+        run: npm audit signatures

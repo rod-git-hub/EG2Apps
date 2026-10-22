@@ -1,0 +1,31 @@
+# Dependencies and build output: always rebuilt, never committed
+node_modules/
+dist/
+coverage/
+*.ehpk
+
+# Secrets: never committed (Rule 1.4). There should be none in this project.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+
+# Logs and local captures (may hold test data)
+*.log
+*.pcap
+*.pcapng
+
+# Local-only development material: never published
+CLAUDE.md
+.claude/
+private/
+
+# Editor / OS clutter
+.DS_Store
+.vscode/
+.idea/
