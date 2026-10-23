@@ -37,10 +37,25 @@ export function cleanName(v: unknown, what: string): Validated<string> {
   return { ok: true, value: s };
 }
 
+/**
+ * Spaces and tabs at the end of every line removed, in one pass. No regular expression: `/[ \t]+$/gm` took time growing
+ * with the square of a long run of spaces (6.6 s for 40,000), and this runs on imported text before its length check.
+ */
+export function trimLineEnds(s: string): string {
+  const lines = s.split("\n");
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]!;
+    let end = line.length;
+    while (end > 0 && (line[end - 1] === " " || line[end - 1] === "\t")) end--;
+    if (end < line.length) lines[i] = line.slice(0, end);
+  }
+  return lines.join("\n");
+}
+
 /** Free text (a note's text, a topic's details): at most TEXT_MAX_CHARS characters; line breaks kept. */
 export function cleanText(v: unknown, what: string): Validated<string> {
   if (typeof v !== "string") return { ok: false, error: `${what} must be text` };
-  const s = v.replace(/\r\n?/g, "\n").replace(/[ \t]+$/gm, "").trim();
+  const s = trimLineEnds(v.replace(/\r\n?/g, "\n")).trim();
   if (chars(s) > TEXT_MAX_CHARS) return { ok: false, error: `${what} is too long (at most ${TEXT_MAX_CHARS.toLocaleString("en")} characters)` };
   return { ok: true, value: s };
 }
