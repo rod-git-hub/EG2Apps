@@ -12,5 +12,5 @@ Risks that can't be fully removed, and what the apps do about each. Updated with
 | E6 | ❓ Whether Even syncs plugin storage to its cloud | Unknown | Network capture on the phone before release; the privacy policy makes no claim either way | Open |
 | E7 | No backup: uninstalling, losing storage or a confirmed delete (on the phone, or from the glasses menu) removes data for good | Partly | Export / import; every delete asks first and says what's inside; clear wording on the phone page, in the privacy policy and the release notes | Open |
 | E8 | Android's clipboard may expose exported text to other apps | No | Said next to the Export button; export only happens when you ask | Open |
-| E9 | Imported text is untrusted input | Yes, mostly | Strict schema, size limits, shown only as text (never run or rendered as HTML), tests | Open |
+| E9 | Imported text is untrusted input | Yes, mostly | Strict schema, size limits, shown only as text (never run or rendered as HTML), checked in linear time (no backtracking regular expressions: hostile text tested, GitHub code scanning on every push), tests | Open |
 | E10 | Supply chain (npm packages) | Reduced | `.npmrc` policy, approved-packages list, `npm ci`, audit and signature checks, advisories per package, 7-day minimum age for shipped builds | Open |
