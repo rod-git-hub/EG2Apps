@@ -120,7 +120,7 @@ docs/                  tutorials, how-to guides, reference, explanation (index: 
 ## 🧪 Tested with
 
 Even G2 glasses and the R1 ring with the latest Even Realities app and firmware (Android); Even Hub SDK 0.0.16, CLI
-0.1.14 and simulator 0.9.5; Node.js 24.22 on Linux x86-64.
+0.2.0 and simulator 0.9.5; Node.js 24.22 on Linux x86-64.
 
 ## 📸 Screenshots
 

@@ -16,9 +16,6 @@ updates:
     ignore:
       - dependency-name: "@types/node"
         update-types: ["version-update:semver-major"]
-      # The Even CLI stays on 0.1.x until 0.2.0 has been tested (decided 2026-10-21).
-      - dependency-name: "@evenrealities/evenhub-cli"
-        update-types: ["version-update:semver-minor"]
     open-pull-requests-limit: 5
 
   - package-ecosystem: github-actions

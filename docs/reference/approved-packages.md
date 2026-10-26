@@ -4,7 +4,7 @@ Only packages listed here may appear as **direct** dependencies in any `package.
 `scripts/check-approved.mjs` enforces this list in CI and in `npm run check`. To add or upgrade a package: re-run
 the checks below, update this file in the same commit, and get the maintainer's approval for anything new.
 
-**Approved:** 2026-10-21.
+**Approved:** 2026-10-21; Even CLI 0.2.0 on 2026-10-26.
 
 **Checks for every direct package** (npm registry metadata, read 2026-10-21):
 - trusted publisher (the organisation's own npm accounts)
@@ -19,8 +19,8 @@ the checks below, update this file in the same commit, and get the maintainer's 
 | `@evenrealities/even_hub_sdk` | 0.0.16 | `apps/eg2notes` (runtime) | Even Hub SDK: glasses display, input, storage. **The only package that ships to the phone.** | Even Realities | 2026-09-24 | No (signed) | None | 0 | MIT |
 | `@evenrealities/even_hub_sdk` | 0.0.16 | `apps/eg2presentation` (runtime) | same | same | same | same | same | same | same |
 | `@evenrealities/even_hub_sdk` | 0.0.16 | `packages/shared` (runtime) | same (the shared glasses code) | same | same | same | same | same | same |
-| `@evenrealities/evenhub-cli` | 0.1.14 | `apps/eg2notes` (dev) | QR sideload, `app.json`, `.ehpk` packaging. 0.2.0 later, once tested | Even Realities | 2026-08-20 | No (signed) | None | 8 (+ peer `typescript ^5`) | `UNLICENSED` in its metadata (dev tool, never shipped) |
-| `@evenrealities/evenhub-cli` | 0.1.14 | `apps/eg2presentation` (dev) | same | same | same | same | same | same | same |
+| `@evenrealities/evenhub-cli` | 0.2.0 | `apps/eg2notes` (dev) | QR sideload, `.ehpk` packaging (its app-management commands need a login: not used) | Even Realities | 2026-10-20 | No (signed) | None | 0 (8 bundled inside it) | `UNLICENSED` in its metadata (dev tool, never shipped) |
+| `@evenrealities/evenhub-cli` | 0.2.0 | `apps/eg2presentation` (dev) | same | same | same | same | same | same | same |
 | `@evenrealities/evenhub-simulator` | 0.9.5 | root (dev) | Desktop simulator (native binary via a platform package) | Even Realities | 2026-09-01 | No (signed) | None | 0 (+6 optional platform binaries) | MIT |
 | `vite` | 8.3.4 | root (dev) | Dev server with hot reload, production build | Vite team | 2026-10-08 | **Yes** | None | 5 (+1 optional) | MIT |
 | `typescript` | 7.0.2 | root (dev) | Type checking (`tsc --noEmit`) | Microsoft | 2026-07-08 | No (signed) | None | 20 platform binaries (optional) | Apache-2.0 |
@@ -30,11 +30,12 @@ the checks below, update this file in the same commit, and get the maintainer's 
 
 - **Vite advisories (2026-10-21):** none affects 8.3.4. The three of 2026-10-06 were fixed in 8.3.3;
   GHSA-8g5g-mxqh-grgj (2026-10-21) affects Vite 6.4.4 only.
-- **Why the CLI sits in each app, not at the root:** it declares a peer dependency on TypeScript `^5`, while the
-  root type-checks with TypeScript 7. Inside a workspace, npm gives the CLI its own TypeScript 5.9.3 (an indirect
-  dependency) without `--legacy-peer-deps` or overrides. The CLI's code never imports TypeScript (only its package
-  metadata names it), and **CLI 0.2.0 has no peer dependencies and no dependencies at all** (npm registry, checked
-  2026-10-21), so the nested copies go away with 0.2.0.
+- **The Even CLI (moved from 0.1.14 to 0.2.0 on 2026-10-26):** it sits in each app's workspace, where its `pack` and
+  `qr` commands run. 0.1.14 needed TypeScript `^5` as a peer (a nested 5.9.3 next to the root's 7); 0.2.0 has no
+  dependencies, so 62 packages left the lockfile. The catch: its 8 dependencies are now bundled inside it, so
+  `npm audit` can't check them (it's Even's own tool and never ships to the phone). The same build packs
+  byte-identical `.ehpk` files with 0.1.14 and 0.2.0 (sha256 compared). Its new commands (upload, promote, testers…)
+  need `evenhub login`; we don't log in on the development machine: uploads happen in Even's portal.
 - **postcss pinned to 8.5.30** (`overrides` in the root `package.json`, 2026-10-21): Vite asks for `^8.5.29` and npm had
   installed 8.5.31, published 3 days before the first release build (the 7-day rule for shipped builds,
   `npm run check:release`). 8.5.30 (2026-10-12) is in Vite's range and has no known advisory (postcss's advisories
