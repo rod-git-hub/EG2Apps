@@ -2,6 +2,11 @@
 
 User-visible changes per released version of each app.
 
+## 1.0.2
+
+- **Both:** pasted or imported text with very long runs of spaces no longer slows the app down; the checks on a note's
+  text and a topic's details run quickly whatever the text. No change to how the apps look or work.
+
 ## 1.0.1 (beta)
 
 - **Both:** choose how lists look on the glasses: the text cursor or Even's select box (phone page → Glasses lists).

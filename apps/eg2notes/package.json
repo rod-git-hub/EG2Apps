@@ -1,6 +1,6 @@
 {
   "name": "@eg2apps/eg2notes",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "description": "EG2Notes: quick notes and checklists on Even Realities G2 glasses, edited on the phone.",
   "license": "Apache-2.0",
