@@ -1,9 +1,9 @@
 // EG2Presentation on the glasses: folders → presentations → topics (with the stopwatch rows at the top) → a topic's
-// details a page at a time. In a topic's details, tap = done → next topic (a proven design, kept as it was);
-// a swipe down past the last page goes on to the next topic too. Creating and editing happen on the phone; the glasses
+// details a page at a time. In a topic's details, tap = tick / untick and stay; a swipe past the last page goes to the
+// next topic, before the first page to the previous one. Creating and editing happen on the phone; the glasses
 // mark done, run the stopwatch, move and delete (glasses menu, every delete confirmed).
 
-import type { ListStyle, Navigator, Row, RowMenu, Screen } from "@eg2apps/shared";
+import { textPages, type ListStyle, type Navigator, type Row, type RowMenu, type Screen } from "@eg2apps/shared";
 import { formatElapsed, type Stopwatch } from "./stopwatch.ts";
 import {
   countDone, findFolder, findPresentation, moveFolder, movePresentation, moveTopic, removeFolder, removePresentation,
@@ -42,31 +42,38 @@ export function talksScreens(doc: () => TalksDoc, nav: Navigator, sw: Stopwatch,
   // Short enough to fit beside the corner wordmark (measured: "Quarterly review · 00:10 · 1/5" is 244 of 287 px).
   const talkHeader = (name: string, done: string, now: string) => `${name} · ${now} · ${done}`;
 
+  /**
+   * A topic's details, a page at a time. Tap = tick / untick this topic and stay (the ○ / ● changes in front of you);
+   * swipe down past the last page = the next topic, swipe up on the first page = the previous one; double tap = back to
+   * the topics, on the topic you reached. (1.1.0: "tap ticks, swipe moves"; before, a tap marked the topic done and
+   * jumped to the next, and nothing unticked on the glasses.)
+   */
   const topicDetails = (presentationId: string, topicId: string): Screen => {
     const found = findPresentation(doc(), presentationId);
     const topics = found?.presentation.topics ?? [];
     const i = topics.findIndex((t) => t.id === topicId);
     const t = topics[i];
     if (!found || !t) return gone();
-    const next = topics[i + 1];
-    const goNext = () => {
-      if (next) {
-        nav.parentCursorBy(1); // back from the details lands on the topic you're on
-        nav.replace(() => topicDetails(presentationId, next.id));
-      } else nav.pop();
+    const go = (other: number) => {
+      const to = topics[other];
+      if (!to) return; // the first or the last topic: nothing to move to
+      nav.parentCursorBy(other - i); // back from the details lands on the topic you're on
+      nav.replace(() => topicDetails(presentationId, to.id));
     };
+    const body = `${tick(t.done)} ${t.title}${t.details ? `\n\n${t.details}` : ""}`;
+    const swipes = topics.length > 1 || textPages(body).length > 1; // another topic or another page to swipe to
     return {
       kind: "text",
       header: `${formatElapsed(sw.elapsed())} · topic ${i + 1}/${topics.length}`, // the topic's title is the page's first line
       ticks: true,
-      body: `${tick(t.done)} ${t.title}${t.details ? `\n\n${t.details}` : ""}`,
-      hint: "tap = done ▶ next · double tap = back", // → is missing from the glasses font
+      body,
+      hint: `tap = ${t.done ? "untick" : "tick"}${swipes ? " · swipe = next / previous" : ""} · double tap = back`,
       onTap: () => {
-        setTopicDone(doc(), presentationId, t.id, true);
-        changed();
-        goNext();
+        setTopicDone(doc(), presentationId, t.id, !t.done);
+        changed(); // saves and redraws this page: the cursor and page stay
       },
-      onPastEnd: goNext,
+      onPastEnd: () => go(i + 1),
+      onPastStart: () => go(i - 1),
       menu: menu(t.title, (d) => moveTopic(doc(), presentationId, t.id, d), () => removeTopic(doc(), presentationId, t.id)),
     };
   };

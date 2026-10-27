@@ -34,7 +34,7 @@ const RUNS = {
     { params: "show=Match phone", steps: [] }, // the appearance back to the default
   ],
   eg2presentation: [
-    { params: "", steps: ["glasses:glasses-01-folders", "phone:phone-01-folders", "click", "glasses:glasses-02-presentations", "click", "click", "wait:4000", "glasses:glasses-03-talk", "down", "click", "click", "glasses:glasses-04-topic-details"] },
+    { params: "", steps: ["glasses:glasses-01-folders", "phone:phone-01-folders", "click", "glasses:glasses-02-presentations", "click", "click", "wait:4000", "glasses:glasses-03-talk", "down", "click", "down", "click", "glasses:glasses-04-topic-details"] },
     { params: "show=Work|Quarterly review|Start|wait:3000", steps: ["phone:phone-02-talk"] },
     { params: "show=Work|Quarterly review|2. Results this quarter", steps: ["phone:phone-03-topic"] },
     { params: "show=scroll:Appearance", steps: ["phone:phone-04-settings"] },
@@ -114,11 +114,25 @@ async function simReady() {
 
 const get = async (path) => Buffer.from(await (await fetch(`${SIM}${path}`)).arrayBuffer());
 
+/** Waits (up to 60 s) until the glasses show something: the app has drawn its first page. */
+async function glassesShowing() {
+  for (let i = 0; i < 120; i++) {
+    const shot = await get("/api/screenshot/glasses").catch(() => null);
+    if (shot) {
+      const { px } = readPng(shot);
+      for (let j = 3; j < px.length; j += 4) if (px[j] > 0) return;
+    }
+    await sleep(500);
+  }
+  die("the glasses stayed blank: is the preview running?");
+}
+
 async function run(url, steps, outDir, only) {
   const sim = spawn(SIM_BIN, [url, "--automation-port", String(PORT)], { stdio: "ignore" });
   try {
     await simReady();
-    await sleep(7000); // the page, Even's bridge and the first glasses page
+    await glassesShowing(); // a cold preview can take a while: taps sent before the first page are lost
+    await sleep(2000);
     for (const step of steps) {
       const [kind, name] = step.split(":");
       if (kind === "wait") await sleep(Number(name));

@@ -50,9 +50,12 @@ not counted tick by tick, so it stays right while Android pauses the page or the
   `● Pause  00:04`; `▶ Resume  00:04` + `○ Reset stopwatch`), a spacer, then `○ 1. Title` / `● 1. Title`.
 - **Header:** `Name · 00:04 · 1/5`, measured to fit beside the corner wordmark; the time is read once per redraw, so
   the header and the row always agree. With Even's list the row says "stopwatch" (a row can't change in place there).
-- **A topic's details:** header `00:04 · topic 2/5`; `onTap` marks it done and replaces the page with the next topic
-  (`parentCursorBy(1)` keeps the topics list's cursor in step); `onPastEnd` (swipe past the last page) moves on
-  without marking. `✓` and `→` aren't in the glasses font: `●` `○` `▶` instead (`tests/glyphs.test.mjs`).
+- **A topic's details** (1.1.0): header `00:04 · topic 2/5`; `onTap` toggles the topic's done
+  flag (`setTopicDone`, then `changed()` redraws the same page); `onPastEnd` / `onPastStart` (a swipe past the last or
+  before the first page) `replace` the page with the next / previous topic, and `parentCursorBy(other − i)` keeps the
+  topics list's cursor in step; nothing past the ends. The hint says `tap = tick` or `tap = untick`, plus
+  `swipe = next / previous` when there's another topic or page. Before 1.1.0 a tap marked the topic done and jumped to
+  the next. `✓` and `→` aren't in the glasses font: `●` `○` `▶` instead (`tests/glyphs.test.mjs`).
 
 ## Privacy
 

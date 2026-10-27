@@ -23,7 +23,8 @@ account, no internet: your data stays on your phone.
 - **EG2Notes:** notes with a text and a checklist. On the glasses, open a note, read its text a page at a time, tick
   items with a tap (temple touchpads or the R1 ring), mark notes done.
 - **EG2Presentation:** folders of presentations, each an ordered list of topics with your details. On the glasses, a
-  tap marks a topic done and shows the next; a talk stopwatch keeps time, even while the phone is locked.
+  tap ticks or unticks a topic and a swipe moves to the next or previous one; a talk stopwatch keeps time, even while
+  the phone is locked.
 - **The glasses menu:** Move up, Move down, Select and Delete on the row under the cursor; every delete asks first.
 - **The phone page:** create, edit, rename, reorder and delete; light or dark (or match the phone).
 - **Your choice of lists:** the apps' text cursor, or Even's own select box.

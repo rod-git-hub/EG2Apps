@@ -85,8 +85,8 @@ Folders of presentations; a presentation is an ordered list of topics, each with
   stopwatch and topics done (`Quarterly review · 00:04 · 0/5`).
 - **The stopwatch** is at the top of every presentation's topics: **▶ Start**, **● Pause**, **▶ Resume**,
   **○ Reset**. It keeps time while the phone is locked, and the phone page shows the same stopwatch.
-- **A topic's details:** tap = **done ▶ next** (marks it `●` and opens the next topic). Swiping down past the last
-  page also moves on. Double tap = back to the topics.
+- **A topic's details:** **tap = tick / untick** (`●` done, `○` not yet; you stay on the topic). **Swipe down / up**
+  = the next / previous topic (a long text turns its pages first). Double tap = back to the topics.
 
 More: [how-to/features/eg2presentation.md](../how-to/features/eg2presentation.md).
 

@@ -1,5 +1,5 @@
-// EG2Presentation: the data model's edits and strict check, and the glasses' talk flow (tap = done → next topic, the
-// topic list's cursor follows, the stopwatch rows).
+// EG2Presentation: the data model's edits and strict check, and the glasses' talk flow (in a topic's details: tap =
+// tick / untick and stay, swipes move between topics; the topic list's cursor follows; the stopwatch rows).
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import * as T from "../apps/eg2presentation/src/talks.ts";
@@ -80,29 +80,64 @@ test("the topic list: stopwatch row first, then the topics with ○ / ● and nu
   assert.match(s.last().header, /01:05/);
 });
 
-test("tap in a topic's details = done → next topic; back lands on the topic you're on; the last one returns", () => {
+test("tap in a topic's details ticks it and stays; tap again unticks (Rod: tick and untick)", () => {
   const s = talk();
   s.nav.handle({ type: "down" }); // to topic 1 (blank line skipped)
   s.nav.handle({ type: "tap" }); // open Welcome
   assert.match(s.last().header, /topic 1\/3/);
-  assert.match(s.last().hint, /done ▶ next/);
-  s.nav.handle({ type: "tap" }); // done → next
+  assert.match(s.last().hint, /^tap = tick · swipe = next \/ previous · double tap = back$/);
+  s.nav.handle({ type: "tap" }); // tick
   assert.equal(s.p.topics[0].done, true);
-  assert.match(s.last().header, /topic 2\/3/);
-  s.nav.handle({ type: "double-tap" });
-  assert.match(s.last().body, /> ○ 2\. Results/, "the cursor followed to topic 2");
-  assert.match(s.last().header, /· 1\/3$/);
-  s.nav.handle({ type: "tap" }); // open Results
-  s.nav.handle({ type: "tap" }); // done → Questions
-  s.nav.handle({ type: "tap" }); // done → last: back to the list
-  assert.match(s.last().header, /· 3\/3$/);
+  assert.match(s.last().header, /topic 1\/3/, "stays on the same topic");
+  assert.match(s.last().body, /^● Welcome/);
+  assert.match(s.last().hint, /^tap = untick/);
+  s.nav.handle({ type: "tap" }); // untick
+  assert.equal(s.p.topics[0].done, false);
+  assert.match(s.last().body, /^○ Welcome/);
+  assert.equal(s.saves(), 2, "each tick is saved");
 });
 
-test("a swipe down past a topic's last page goes on to the next topic (not marked done)", () => {
+test("swipes move between topics without ticking; nothing past the first or last; back lands on the topic reached", () => {
   const s = talk();
   s.nav.handle({ type: "down" });
   s.nav.handle({ type: "tap" }); // Welcome (one page)
-  s.nav.handle({ type: "down" });
+  s.nav.handle({ type: "up" }); // before the first topic: nothing
+  assert.match(s.last().header, /topic 1\/3/);
+  s.nav.handle({ type: "down" }); // → Results
+  s.nav.handle({ type: "down" }); // → Questions
+  assert.match(s.last().header, /topic 3\/3/);
+  s.nav.handle({ type: "down" }); // past the last topic: nothing
+  assert.match(s.last().header, /topic 3\/3/);
+  s.nav.handle({ type: "up" }); // ← Results
   assert.match(s.last().header, /topic 2\/3/);
-  assert.equal(s.p.topics[0].done, false);
+  assert.ok(s.p.topics.every((t) => !t.done), "moving never ticks");
+  s.nav.handle({ type: "double-tap" });
+  assert.match(s.last().body, /> ○ 2\. Results/, "the list cursor followed to topic 2");
+});
+
+test("a long topic turns its pages before moving on; the swipe hint shows only with another topic or page", () => {
+  const s = talk();
+  const long = Array.from({ length: 30 }, (_, n) => `Line ${n + 1} of the details.`).join("\n");
+  T.editTopic(s.d, s.p.id, s.p.topics[0].id, "Welcome", long);
+  s.nav.handle({ type: "down" });
+  s.nav.handle({ type: "tap" }); // Welcome, several pages
+  assert.match(s.last().header, /topic 1\/3 · 1\/\d/);
+  s.nav.handle({ type: "down" }); // page 2, same topic
+  assert.match(s.last().header, /topic 1\/3 · 2\//);
+  s.nav.handle({ type: "up" }); // back to page 1
+  s.nav.handle({ type: "up" }); // before the first topic: nothing
+  assert.match(s.last().header, /topic 1\/3 · 1\//);
+  const one = T.emptyDoc();
+  const f = T.addFolder(one, "Solo").value;
+  const p = T.addPresentation(one, f.id, "Short talk").value;
+  T.addTopics(one, p.id, "Only topic");
+  const frames = [];
+  const nav = new Navigator({ outputs: [{ show: (fr) => frames.push(fr) }], onExitRequest: () => {} });
+  const screens = talksScreens(() => one, nav, new Stopwatch(null, () => {}, () => 0), () => nav.refresh());
+  nav.push(screens.folderList);
+  for (const g of ["tap", "tap", "down", "tap"]) nav.handle({ type: g }); // Solo → Short talk → topic → open
+  assert.equal(frames.at(-1).hint, "tap = tick · double tap = back");
+  T.editTopic(one, p.id, p.topics[0].id, "Only topic", long); // one topic, several pages: swiping turns them
+  nav.refresh();
+  assert.equal(frames.at(-1).hint, "tap = tick · swipe = next / previous · double tap = back");
 });

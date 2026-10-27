@@ -2,6 +2,12 @@
 
 User-visible changes per released version of each app.
 
+## EG2Presentation 1.1.0
+
+- **Tick and untick topics on the glasses:** in a topic's details, a tap ticks it (`●`) or unticks it (`○`), and you
+  stay on it. **Swipe down / up** for the next / previous topic (a long text turns its pages first). Before, a tap
+  marked the topic done and jumped to the next, and nothing unticked on the glasses.
+
 ## 1.0.2
 
 - **Both:** pasted or imported text with very long runs of spaces no longer slows the app down; the checks on a note's

@@ -45,6 +45,8 @@ One screenshot only: add the output folder and its name, e.g.
 
 - **One simulator per automation port** (9898). Another one running: set `SIM_PORT=9899`.
 - **Editing the code reloads the simulator's page** (hot reload): don't edit while it runs.
+- The script waits until the glasses show the app's first page before it taps: a freshly started preview is slow on
+  its first load, and taps sent before then are lost (the whole sequence shifts).
 - The last step of each app's run sets Appearance back to Match phone (in case the simulator keeps settings between starts).
 - Changing the sample data or the screens changes the pictures: run both apps again and look at every picture before
   committing.

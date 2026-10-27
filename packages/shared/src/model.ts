@@ -50,7 +50,7 @@ export interface TextScreen {
   header: string;
   /** The text, split into pages of whole lines; a swipe turns the page. */
   body: string;
-  /** Runs on a tap (e.g. "done → next topic"). */
+  /** Runs on a tap (e.g. tick or untick a topic). */
   onTap?: () => void;
   /** Runs on double tap before going back; return true to stay. */
   onBack?: () => boolean | void;

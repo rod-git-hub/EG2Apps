@@ -16,9 +16,11 @@ you talk, and a stopwatch. Created and edited on the phone; on the glasses you g
 - **The stopwatch:** **▶ Start stopwatch**; while running **● Pause** (with the time); when paused **▶ Resume** and
   **○ Reset stopwatch**. It keeps time while the phone is locked or the app is in the background.
 - **A topic:** its title, then its details, a page at a time. The header shows the stopwatch and `topic 2/5`.
-  - **Tap = done ▶ next:** marks the topic `●` and opens the next one (after the last, back to the topics).
-  - Swipe down past the last page: on to the next topic, without marking it done.
-  - Double tap: back to the topics, with the cursor on the topic you were on.
+  - **Tap = tick / untick:** marks the topic `●` (done) or back to `○`, and you stay on it.
+  - **Swipe down** past the last page: the next topic; **swipe up** on the first page: the previous one. A long text
+    turns its pages first. Swiping never ticks; nothing happens past the first or last topic.
+  - Double tap: back to the topics, with the cursor on the topic you reached.
+  - The line under the frame says what a tap does now: `tap = tick` or `tap = untick`.
 - **Glasses menu** (tap, then press and hold): Move up, Move down, Select and Delete on folders, presentations and
   topics; on a topic's page, for that topic. Deleting a folder or presentation says what's inside and deletes it too.
   See [glasses-menu.md](glasses-menu.md).
