@@ -80,7 +80,7 @@ test("the topic list: stopwatch row first, then the topics with ○ / ● and nu
   assert.match(s.last().header, /01:05/);
 });
 
-test("tap in a topic's details ticks it and stays; tap again unticks (Rod: tick and untick)", () => {
+test("tap in a topic's details ticks it and stays; tap again unticks", () => {
   const s = talk();
   s.nav.handle({ type: "down" }); // to topic 1 (blank line skipped)
   s.nav.handle({ type: "tap" }); // open Welcome

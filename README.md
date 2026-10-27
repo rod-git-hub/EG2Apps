@@ -138,8 +138,13 @@ More in [docs/tutorials/user-guide.md](docs/tutorials/user-guide.md).
 
 ## Status
 
-Version 1.0.1 of both apps was submitted to Even Hub for review on 22 October 2026; once approved, install them from
-Even Hub. Changes: [CHANGELOG.md](CHANGELOG.md).
+| App | Latest version | What's new |
+|---|---|---|
+| EG2Notes | 1.0.2 | Faster, safer handling of very long pasted or imported text |
+| EG2Presentation | 1.1.0 | Tick and untick topics on the glasses; swipe to the next or previous topic |
+
+Version 1.0.1 of both apps was submitted to Even Hub for review on 22 October 2026; the newer versions go through Even's
+review next. Once approved, install them from Even Hub. All changes: [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 
