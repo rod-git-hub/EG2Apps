@@ -26,5 +26,7 @@ test("cleanText stays fast on hostile text (linear time)", () => {
   const r = cleanText(" ".repeat(1_000_000) + "x", "text");
   assert.equal(r.ok, true); // trimmed to "x"
   cleanText((" \t".repeat(20_000) + "y\n").repeat(10), "text");
-  assert.ok(performance.now() - started < 300, "took too long");
+  // Generous for a busy machine: the old regular expression needed over an hour on the first input, over a minute on
+  // the second; the new code takes about 10-100 ms.
+  assert.ok(performance.now() - started < 2000, "took too long");
 });
