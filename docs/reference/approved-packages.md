@@ -37,10 +37,10 @@ the checks below, update this file in the same commit, and get the maintainer's 
   `npm audit` can't check them (it's Even's own tool and never ships to the phone). The same build packs
   byte-identical `.ehpk` files with 0.1.14 and 0.2.0 (sha256 compared). Its new commands (upload, promote, testers…)
   need `evenhub login`; we don't log in on the development machine: uploads happen in Even's portal.
-- **postcss pinned to 8.5.31** (`overrides` in the root `package.json`, 2026-11-01): Vite asks for `^8.5.30`, and npm
-  would install 8.5.32, published 2026-10-26, too new for the 7-day rule for shipped builds (`npm run check:release`).
-  8.5.31 (2026-10-18) is in Vite's range and has no known advisory. Remove the override once the newest version is
-  7 days old.
+- **postcss** (an indirect dependency, through Vite) is no longer pinned: 8.5.32 passed the 7-day rule, so the
+  `overrides` entry in the root `package.json` came out on 2026-11-04. The lockfile holds the exact version. The
+  built apps didn't change (byte-identical `.ehpk` files). If a brand-new indirect release ever fails
+  `npm run check:release`, hold it back the same way until it's 7 days old.
 - **Built-in instead of packages:** tests (`node:test`), TypeScript execution in tests (Node 24 type stripping),
   scans and checks (Node built-ins only).
 - **First install (2026-10-21):** 87 packages, 0 vulnerabilities, 84 verified registry signatures (39 with

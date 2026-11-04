@@ -39,7 +39,7 @@ committed.
    ```
 
 A brand-new release (younger than 7 days) that a transitive dependency pulls in can be held back with `overrides` in
-the root `package.json` (as done for `postcss`).
+the root `package.json` until it's old enough (done for `postcss` in October 2026).
 
 ## Update Even's SDK
 
