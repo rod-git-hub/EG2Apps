@@ -30,6 +30,6 @@
     "@evenrealities/evenhub-simulator": "0.9.5",
     "@types/node": "24.19.2",
     "typescript": "7.0.2",
-    "vite": "8.3.5"
+    "vite": "8.3.6"
   }
 }
